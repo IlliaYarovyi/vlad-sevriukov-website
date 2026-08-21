@@ -152,53 +152,46 @@
   color: rgb(var(--c-text) / 0.5);
 }
 
-/* The entrance animation on .hero__media is cleared via JS once it ends
-   (src/hero-video.js) rather than left running indefinitely with
-   fill-mode both. Two reasons, both about .hero-video below going
-   position:fixed on click:
-     1. A *completed* CSS animation still reports a non-"none" computed
-        transform (browsers give back e.g. matrix(1,0,0,1,0,0), not the
-        keyword none) — and per spec, an ancestor with a non-none
-        transform becomes the containing block for position:fixed
-        descendants instead of the viewport. Left running, this
-        silently breaks .is-expanded's viewport-centering below.
-     2. A running/filling CSS animation also holds the `transform`
-        property at the animation cascade origin, which outranks a
-        plain `transform:` declaration from .is-expanded — so even
-        moving the animation onto .hero-video itself just traded one
-        break for another (the animation would keep overriding
-        .is-expanded's translate(-50%,-50%)).
-   Clearing the animation once it's visually done avoids both. */
-/* width:100% (a definite value), not fit-content — fit-content here
-   created a circular dependency with .hero-video's own percentage-based
+/* width:100% (a definite value), not fit-content — fit-content would
+   create a circular dependency with .hero-video's own percentage-based
    width below (parent needs the child's size to shrink-wrap, child
-   needs the parent's resolved size for its "100%"), which collapsed to
-   ~0px once the entrance animation was cleared and forced a style
-   recalculation. .hero-video is right-aligned itself instead (margin-
-   left: auto), since its parent is no longer shrink-wrapped to it. */
+   needs the parent's resolved size for its "100%"), which collapses to
+   ~0px the moment anything forces a style recalculation after load
+   (this genuinely happened — see git history). animation: fade (opacity
+   only, never transform) rather than the site's usual "rise" — besides
+   matching the design exactly, an ancestor with any non-none computed
+   transform (including a *finished* transform-animation, which browsers
+   still report as e.g. matrix(1,0,0,1,0,0) rather than the keyword
+   none) becomes the containing block for position:fixed descendants
+   instead of the viewport, which would break .is-expanded below the
+   same way it did before. Opacity-only sidesteps that category of bug
+   entirely rather than working around it. */
 .hero__media {
   position: relative;
   width: 100%;
-  animation: rise 1.3s 0.15s var(--ease-out) both;
+  max-width: min(820px, 100%);
+  margin: 0 0 0 auto;
+  animation: fade 1.4s 0.15s ease both;
 }
 
-/* Sized to the real promo video's actual 9:16 shape — capped at 380px
-   wide so a vertical video doesn't tower over the text column beside it.
-   Click grows this same box (and the <video> inside it) into a fixed,
-   viewport-centered overlay instead of opening a second element — see
+/* Collapsed: a wide min(820px,100%) landscape crop (height via
+   padding-bottom, not the video's real aspect ratio — object-fit:cover
+   on .hero-video__player crops the source to fit). Expanded: grows to
+   the video's true 9:16 shape, centered fixed over the backdrop. Click
+   toggles the same <video> element between the two — see
    src/hero-video.js. */
 .hero-video {
   position: relative;
   display: block;
-  width: min(380px, 100%);
-  margin-left: auto;
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
+  width: 100%;
+  height: 0;
   padding: 0;
+  padding-bottom: 75%;
+  overflow: hidden;
   border: 1px solid rgb(var(--c-text) / 0.14);
   background: #0e0c0a;
   cursor: pointer;
-  transition: border-color var(--transition-fast);
+  transition: padding-bottom 0.5s var(--ease-out), border-color var(--transition-fast);
 }
 
 .hero-video:hover,
@@ -214,6 +207,8 @@
   z-index: 90;
   width: auto;
   height: min(82vh, 760px);
+  padding-bottom: 0;
+  aspect-ratio: 9 / 16;
   border-color: rgb(var(--c-gold) / 0.35);
 }
 

@@ -14,19 +14,6 @@ export function initHeroVideo() {
   const glyph = document.querySelector('.hero-video__glyph');
   if (!wrap || !video || !backdrop || !hint || !glyph) return;
 
-  // See the comment on .hero__media in components.css: its entrance
-  // animation has to stop existing (not just finish playing) once it's
-  // visually done, or it breaks .hero-video's position:fixed centering
-  // on click. `animation: none` drops it from the cascade entirely.
-  const media = document.querySelector('.hero__media');
-  media?.addEventListener(
-    'animationend',
-    () => {
-      media.style.animation = 'none';
-    },
-    { once: true }
-  );
-
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const PREVIEW_HINT = 'без звуку — натисніть, щоб дивитися';
