@@ -233,6 +233,38 @@ body.hero-video-open {
   overflow: hidden;
 }
 
+/* Below the nav breakpoint, expanding no longer pops a fixed, centered
+   overlay with a page-dimming backdrop — position:fixed centering has
+   real quirks on mobile browsers (toolbar show/hide changes the actual
+   viewport height out from under it, among others), and a full-screen
+   takeover isn't the right pattern for a small screen regardless. It
+   grows in place instead: same box, same position in the flow, just a
+   taller aspect-ratio — so it pushes the rest of the page down. Same
+   click target either way to expand/collapse; src/hero-video.js adds a
+   scrollIntoView on this breakpoint so the taller box settles centered
+   in view instead of just growing off the bottom of the screen. */
+@media (max-width: 780px) {
+  .hero-video.is-expanded {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    padding-bottom: 0;
+    aspect-ratio: 9 / 16;
+  }
+
+  .hero-video-backdrop {
+    display: none;
+  }
+
+  body.hero-video-open {
+    overflow: auto;
+  }
+}
+
 .hero-video__player {
   position: absolute;
   inset: 0;

@@ -153,6 +153,21 @@ OAuth (потрібен для живих фідів на кшталт behold.so
 самий елемент, просто інший `padding-bottom`/`aspect-ratio` через клас
 `.is-expanded`.
 
+На десктопі розгорнутий стан — `position: fixed`, центрований по
+viewport, з затемненим backdrop (`.hero-video-backdrop`) і
+`overflow: hidden` на `body`. На мобільних (`max-width: 780px`) той
+самий клас `.is-expanded` замість цього просто росте у потоці —
+`position: relative`, `width: 100%`, той самий `aspect-ratio: 9 / 16`,
+без backdrop і без `overflow: hidden` (`components.css`) — це навмисно:
+`position: fixed`-центрування на мобільних має реальні проблеми (зміна
+висоти viewport при показі/приховуванні адресного рядка серед іншого),
+і повноекранний оверлей — не той патерн для малого екрану. Оскільки
+блок росте на місці, а не спливає, `src/hero-video.js` після
+розгортання (тільки коли `matchMedia('(max-width: 780px)')` активний)
+викликає `wrap.scrollIntoView({ block: 'center' })` — це те, що
+підсуває вищий блок у центр екрану, замість того, щоб він просто виріс
+за межі видимої області знизу.
+
 Файли в `public/media/`:
 - `hero-poster.jpg` — постер (кадр-обкладинка "PROMO")
 - `hero-preview.mp4` — той самий файл без звуку, перші 10s
