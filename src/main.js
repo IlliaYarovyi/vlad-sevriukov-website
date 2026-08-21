@@ -18,7 +18,9 @@ import './styles/components.css';
 import { initNav } from './nav.js';
 import { initContactForm } from './contact-form.js';
 import { initHeroVideo } from './hero-video.js';
+import { initInstagramLightbox } from './instagram-lightbox.js';
 
 initNav();
 initContactForm();
 initHeroVideo();
+initInstagramLightbox();

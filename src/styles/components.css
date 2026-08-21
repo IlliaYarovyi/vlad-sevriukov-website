@@ -821,23 +821,121 @@
   color: rgb(var(--c-text) / 0.5);
 }
 
-/* Holds Instagram's native per-post embeds (see the HTML comment above
-   this container in index.html for why it's this and not a live feed
-   widget). Each .instagram-media blockquote carries its own inline
-   max-width (540px) and min-width (326px) from Instagram's embed code —
-   the grid just decides how many fit per row and centers each card
-   within its cell so they don't stretch to fill a wide track. Instagram's
-   embed.js swaps the blockquote's contents for an iframe once it loads;
-   min-height keeps the section from collapsing/jumping before that. */
-.instagram-embed {
+.instagram-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(326px, 1fr));
-  gap: 20px;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, calc(50% - 8px)), 1fr));
+  gap: 14px;
 }
 
-.instagram-embed .instagram-media {
-  min-height: 400px;
+.instagram-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid rgb(var(--c-text) / 0.14);
+  transition: transform var(--transition-med) var(--ease-out), border-color var(--transition-fast);
+}
+
+.instagram-tile:hover,
+.instagram-tile:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--color-gold);
+}
+
+.instagram-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-med) var(--ease-out), filter var(--transition-fast);
+}
+
+.instagram-tile:hover img,
+.instagram-tile:focus-visible img {
+  transform: scale(1.06);
+  filter: brightness(0.7);
+}
+
+.instagram-tile__icon {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 11px;
+  color: rgb(var(--c-text));
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
+}
+
+/* ---------- Lightbox ---------- */
+/* Our own popup for viewing a picked Instagram post — see the HTML
+   comment above .instagram-grid in index.html for why this exists
+   instead of Instagram's own embed (can't be restyled; this can). */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-section-x);
+}
+
+.lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(14 12 10 / 0.86);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.lightbox__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  max-width: min(560px, 100%);
+  max-height: 100%;
+  animation: rise 0.35s var(--ease-out) both;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: -18px;
+  right: -18px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-bg);
+  border: 1px solid rgb(var(--c-text) / 0.3);
+  color: rgb(var(--c-text));
+  font-size: 16px;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.lightbox__close:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.lightbox__image {
+  max-width: 100%;
+  max-height: 70vh;
+  width: auto;
+  border: 1px solid rgb(var(--c-gold) / 0.3);
+  object-fit: contain;
+}
+
+@media (max-width: 480px) {
+  .lightbox__close {
+    top: -44px;
+    right: 0;
+  }
+}
+
+body.lightbox-open {
+  overflow: hidden;
 }
 
 /* ---------- Contact ---------- */
