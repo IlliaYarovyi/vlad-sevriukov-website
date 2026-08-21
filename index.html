@@ -137,37 +137,31 @@
       </div>
 
       <!--
-        Real promo reel (see README "Instagram feed" for how the source
-        files were pulled/generated — same pipeline as the Instagram
-        section). Plays immediately, muted/looped, sized to its actual
-        9:16 shape rather than a fixed placeholder ratio. Click opens the
-        same lightbox used across the site (src/instagram-lightbox.js —
-        picked up automatically via the generic [data-lightbox]
-        attribute) with the full-quality file and sound.
+        Real promo reel (Vlad's own file — see README "Hero-відео").
+        Autoplays muted/looped inline; clicking it grows the SAME <video>
+        element into a centered, sound-on overlay (src/hero-video.js) —
+        not a separate lightbox instance, so playback position carries
+        over instead of restarting. Click again, click the backdrop, or
+        Escape collapses it back to the muted inline preview.
       -->
       <div class="hero__media">
-        <a
-          href="https://www.instagram.com/reel/DHbHxWMt0s4/"
-          target="_blank"
-          rel="noopener"
-          class="hero-video"
-          data-lightbox
-          data-lightbox-type="video"
-          data-lightbox-src="/instagram/hero-full.mp4"
-          data-lightbox-poster="/instagram/hero-poster.jpg"
-          aria-label="Переглянути повне промо-відео зі звуком"
-        >
-          <video class="hero-video__player" poster="/instagram/hero-poster.jpg" autoplay muted loop playsinline aria-hidden="true">
-            <source src="/instagram/hero-preview.mp4" type="video/mp4" />
-          </video>
-          <span class="hero-video__icon" aria-hidden="true">▶</span>
-        </a>
-        <figure class="hero__quote">
-          <blockquote>
-            <p>«Гості танцювали до ранку»</p>
-          </blockquote>
-          <figcaption>КИЇВ · 2025</figcaption>
-        </figure>
+        <button type="button" class="hero-video" aria-label="без звуку — натисніть, щоб дивитися">
+          <video class="hero-video__player" src="/media/hero-full.mp4" poster="/media/hero-poster.jpg" loop muted playsinline></video>
+          <span class="hero-video__hint" aria-hidden="true">без звуку — натисніть, щоб дивитися</span>
+          <span class="hero-video__icon-wrap" aria-hidden="true">
+            <span class="hero-video__play">
+              <span class="hero-video__pulse"></span>
+              <span class="hero-video__glyph">▶</span>
+            </span>
+          </span>
+          <span class="hero-video__frame" aria-hidden="true">
+            <span class="hero-video__frame-gradient"></span>
+            <span class="hero-video__corner hero-video__corner--tl"></span>
+            <span class="hero-video__corner hero-video__corner--br"></span>
+            <span class="hero-video__frame-label">ПРОМО · 2026</span>
+          </span>
+        </button>
+        <div class="hero-video-backdrop"></div>
       </div>
     </section>
 
@@ -180,8 +174,13 @@
 
     <section id="about" class="about">
       <div class="about__portrait" data-reveal>
-        <div class="placeholder placeholder--portrait">
-          <span class="placeholder__label">portrait.jpg — портрет у світлому костюмі</span>
+        <div class="framed-media framed-media--portrait">
+          <img class="framed-media__img" src="/media/portrait.jpg" alt="Влад Севрюков — весільний ведучий" loading="lazy" decoding="async" />
+          <span class="framed-media__gradient framed-media__gradient--portrait" aria-hidden="true"></span>
+          <span class="framed-media__vignette" aria-hidden="true"></span>
+          <span class="framed-media__corner framed-media__corner--tl" aria-hidden="true"></span>
+          <span class="framed-media__corner framed-media__corner--br" aria-hidden="true"></span>
+          <span class="framed-media__label" aria-hidden="true">КИЇВ</span>
         </div>
         <div class="about__portrait-frame" aria-hidden="true"></div>
       </div>
@@ -232,34 +231,87 @@
         <p class="portfolio__head-desc">Короткі нарізки з реальних вечорів: перший танець, сльози батьків, танцпол до третьої ночі.</p>
       </div>
 
+      <!--
+        Real footage/photos (Vlad's own files — see README "Портфоліо").
+        Video tiles loop a muted preview once scrolled into view (same
+        lazy IntersectionObserver approach as the Instagram reels —
+        src/instagram-video-preview.js covers both) and open the site's
+        lightbox with the full-quality file + sound on click; no "view on
+        Instagram" link since these aren't Instagram posts
+        (data-lightbox-no-link hides it).
+      -->
       <div class="gallery" data-reveal>
-        <figure class="placeholder gallery-item gallery-item--wide gallery-item--tall">
-          <span class="placeholder__label">reel-01.mp4 — головне промо</span>
-          <span class="placeholder__play gallery-item__play" aria-hidden="true">▶</span>
-          <figcaption class="gallery-item__tag">ВЕСІЛЛЯ · КИЇВ</figcaption>
+        <button type="button" class="portfolio-tile portfolio-tile--wide portfolio-tile--tall" data-lightbox data-lightbox-no-link data-lightbox-type="video" data-lightbox-src="/media/portfolio/pf-1-full.mp4" data-lightbox-poster="/media/portfolio/pf-1.jpg" aria-label="Відтворити відео: Київ">
+          <video class="portfolio-tile__media instagram-tile__video" poster="/media/portfolio/pf-1.jpg" muted loop playsinline preload="none">
+            <source data-src="/media/portfolio/pf-1-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--strong" aria-hidden="true"></span>
+          <span class="portfolio-tile__corner portfolio-tile__corner--tl" aria-hidden="true"></span>
+          <span class="portfolio-tile__corner portfolio-tile__corner--br" aria-hidden="true"></span>
+          <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--lg">▶</span></span>
+          <span class="portfolio-tile__label portfolio-tile__label--lg" aria-hidden="true">КИЇВ</span>
+        </button>
+
+        <figure class="portfolio-tile">
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-5.jpg" alt="Весілля" loading="lazy" decoding="async" />
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
+          <span class="portfolio-tile__corner portfolio-tile__corner--tl portfolio-tile__corner--dim" aria-hidden="true"></span>
         </figure>
-        <figure class="placeholder gallery-item gallery-item--photo">
-          <figcaption class="placeholder__label">photo-02.jpg</figcaption>
+
+        <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox data-lightbox-no-link data-lightbox-type="video" data-lightbox-src="/media/portfolio/pf-7-full.mp4" data-lightbox-poster="/media/portfolio/pf-7.jpg" aria-label="Відтворити відео: рілс">
+          <video class="portfolio-tile__media portfolio-tile__media--top instagram-tile__video" poster="/media/portfolio/pf-7.jpg" muted loop playsinline preload="none">
+            <source data-src="/media/portfolio/pf-7-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
+          <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--md">▶</span></span>
+          <span class="portfolio-tile__label" aria-hidden="true">РІЛС</span>
+        </button>
+
+        <figure class="portfolio-tile">
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-4.jpg" alt="Церемонія" loading="lazy" decoding="async" />
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
+          <span class="portfolio-tile__corner portfolio-tile__corner--br portfolio-tile__corner--dim" aria-hidden="true"></span>
         </figure>
-        <figure class="placeholder gallery-item gallery-item--photo">
-          <figcaption class="placeholder__label">photo-03.jpg</figcaption>
+
+        <button type="button" class="portfolio-tile" data-lightbox data-lightbox-no-link data-lightbox-type="video" data-lightbox-src="/media/portfolio/pf-10-full.mp4" data-lightbox-poster="/media/portfolio/pf-10.jpg" aria-label="Відтворити відео">
+          <video class="portfolio-tile__media instagram-tile__video" poster="/media/portfolio/pf-10.jpg" muted loop playsinline preload="none">
+            <source data-src="/media/portfolio/pf-10-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
+          <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--sm">▶</span></span>
+        </button>
+
+        <figure class="portfolio-tile">
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-9.jpg" alt="Ведення весілля" loading="lazy" decoding="async" />
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </figure>
-        <figure class="placeholder gallery-item gallery-item--wide">
-          <span class="placeholder__label">reel-04.mp4 — танцпол</span>
-          <span class="placeholder__play gallery-item__play gallery-item__play--sm" aria-hidden="true">▶</span>
+
+        <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox data-lightbox-no-link data-lightbox-type="video" data-lightbox-src="/media/portfolio/pf-2-full.mp4" data-lightbox-poster="/media/portfolio/pf-2.jpg" aria-label="Відтворити відео: весілля">
+          <video class="portfolio-tile__media instagram-tile__video" poster="/media/portfolio/pf-2.jpg" muted loop playsinline preload="none">
+            <source data-src="/media/portfolio/pf-2-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
+          <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--md">▶</span></span>
+          <span class="portfolio-tile__label" aria-hidden="true">ВЕСІЛЛЯ</span>
+        </button>
+
+        <figure class="portfolio-tile">
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-6.jpg" alt="Момент з весілля" loading="lazy" decoding="async" />
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </figure>
-        <figure class="placeholder gallery-item gallery-item--photo">
-          <figcaption class="placeholder__label">photo-05.jpg</figcaption>
-        </figure>
-        <figure class="placeholder gallery-item gallery-item--photo">
-          <figcaption class="placeholder__label">photo-06.jpg</figcaption>
-        </figure>
-        <figure class="placeholder gallery-item gallery-item--wide">
-          <span class="placeholder__label">reel-07.mp4 — перший танець</span>
-          <span class="placeholder__play gallery-item__play gallery-item__play--sm" aria-hidden="true">▶</span>
-        </figure>
-        <figure class="placeholder gallery-item gallery-item--wide gallery-item--photo">
-          <figcaption class="placeholder__label">photo-08.jpg — панорама залу</figcaption>
+
+        <button type="button" class="portfolio-tile" data-lightbox data-lightbox-no-link data-lightbox-type="video" data-lightbox-src="/media/portfolio/pf-3-full.mp4" data-lightbox-poster="/media/portfolio/pf-3.jpg" aria-label="Відтворити відео">
+          <video class="portfolio-tile__media instagram-tile__video" poster="/media/portfolio/pf-3.jpg" muted loop playsinline preload="none">
+            <source data-src="/media/portfolio/pf-3-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
+          <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--sm">▶</span></span>
+        </button>
+
+        <figure class="portfolio-tile portfolio-tile--wide">
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-8.jpg" alt="Весілля на природі" loading="lazy" decoding="async" />
+          <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
+          <span class="portfolio-tile__label" aria-hidden="true">ЦЕРЕМОНІЯ</span>
         </figure>
       </div>
 

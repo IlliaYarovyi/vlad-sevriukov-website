@@ -64,34 +64,6 @@
   line-height: 1;
 }
 
-/* ---------- Media placeholder ---------- */
-/* Stands in for photos/video not yet supplied. Swap the element for a real
-   <img>/<video> and drop this class — see README "Media assets". */
-
-.placeholder {
-  position: relative;
-  border: 1px solid rgb(var(--c-text) / 0.14);
-  background-image: repeating-linear-gradient(135deg, rgb(var(--c-text) / 0.06) 0 2px, transparent 2px 12px);
-  display: flex;
-}
-
-.placeholder__label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: rgb(var(--c-text) / 0.5);
-}
-
-.placeholder__play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--color-gold);
-  border-radius: 50%;
-  color: var(--color-gold);
-  padding-left: 3px;
-}
-
 /* ---------- Hero ---------- */
 
 .hero {
@@ -180,11 +152,25 @@
   color: rgb(var(--c-text) / 0.5);
 }
 
+/* The entrance animation on .hero__media is cleared via JS once it ends
+   (src/hero-video.js) rather than left running indefinitely with
+   fill-mode both. Two reasons, both about .hero-video below going
+   position:fixed on click:
+     1. A *completed* CSS animation still reports a non-"none" computed
+        transform (browsers give back e.g. matrix(1,0,0,1,0,0), not the
+        keyword none) — and per spec, an ancestor with a non-none
+        transform becomes the containing block for position:fixed
+        descendants instead of the viewport. Left running, this
+        silently breaks .is-expanded's viewport-centering below.
+     2. A running/filling CSS animation also holds the `transform`
+        property at the animation cascade origin, which outranks a
+        plain `transform:` declaration from .is-expanded — so even
+        moving the animation onto .hero-video itself just traded one
+        break for another (the animation would keep overriding
+        .is-expanded's translate(-50%,-50%)).
+   Clearing the animation once it's visually done avoids both. */
 .hero__media {
   position: relative;
-  /* Shrinks to hug the video's actual rendered box (rather than staying
-     as wide as the grid column) so .hero__quote's corner positioning
-     below lands on the video's real corner, not empty space beside it. */
   width: fit-content;
   max-width: 100%;
   margin: 0 0 0 auto;
@@ -192,15 +178,20 @@
 }
 
 /* Sized to the real promo video's actual 9:16 shape — capped at 380px
-   wide so a vertical video doesn't tower over the text column beside it
-   (a true 9:16 at the old 820px cap would render ~1460px tall). */
+   wide so a vertical video doesn't tower over the text column beside it.
+   Click grows this same box (and the <video> inside it) into a fixed,
+   viewport-centered overlay instead of opening a second element — see
+   src/hero-video.js. */
 .hero-video {
   position: relative;
   display: block;
   width: min(380px, 100%);
   aspect-ratio: 9 / 16;
   overflow: hidden;
+  padding: 0;
   border: 1px solid rgb(var(--c-text) / 0.14);
+  background: #0e0c0a;
+  cursor: pointer;
   transition: border-color var(--transition-fast);
 }
 
@@ -209,43 +200,144 @@
   border-color: rgb(var(--c-gold) / 0.5);
 }
 
+.hero-video.is-expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 90;
+  width: auto;
+  height: min(82vh, 760px);
+  border-color: rgb(var(--c-gold) / 0.35);
+}
+
+.hero-video-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgb(8 7 6 / 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s;
+}
+
+.hero-video-backdrop.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.hero-video-open {
+  overflow: hidden;
+}
+
 .hero-video__player {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.hero-video__icon {
+.hero-video__hint {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  font-size: 11px;
-  color: rgb(var(--c-text));
-  text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
-}
-
-.hero__quote {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  padding: 16px 20px;
-  background: var(--color-gold);
-  color: var(--c-bg);
-  max-width: 200px;
-}
-
-.hero__quote p {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  line-height: 1.3;
-}
-
-.hero__quote span {
-  display: block;
-  margin-top: 8px;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  font-family: var(--font-mono);
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
+  color: rgb(var(--c-text) / 0.55);
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+  text-align: left;
+}
+
+.hero-video__icon-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-video__play {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.hero-video__pulse {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  animation: pulse 2.6s ease-in-out infinite;
+}
+
+.hero-video__glyph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--c-text) / 0.4);
+  border-radius: 50%;
+  background: rgb(20 17 15 / 0.35);
+  color: rgb(var(--c-text));
+  font-size: 18px;
+  padding-left: 4px;
+}
+
+/* Corner brackets + bottom gradient + "ПРОМО · 2026" — fades out while
+   expanded so it doesn't compete with the now much-larger video. */
+.hero-video__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+.hero-video.is-expanded .hero-video__frame {
+  opacity: 0;
+}
+
+.hero-video__frame-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(14 12 10 / 0.72) 0%, rgb(14 12 10 / 0.12) 42%, rgb(14 12 10 / 0.3) 100%);
+}
+
+.hero-video__corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.hero-video__corner--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--color-gold);
+  border-left: 1px solid var(--color-gold);
+}
+
+.hero-video__corner--br {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 1px solid var(--color-gold);
+  border-right: 1px solid var(--color-gold);
+}
+
+.hero-video__frame-label {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  color: rgb(var(--c-text) / 0.6);
 }
 
 /* ---------- About ---------- */
@@ -263,10 +355,73 @@
   position: relative;
 }
 
-.placeholder--portrait {
+/* Generic "real photo/video in a bracketed frame" treatment — corner
+   brackets + bottom gradient + a small caption label, reused (with its
+   own sizing) wherever a real asset needs the site's frame language
+   instead of the dashed-hatch .placeholder pattern. */
+.framed-media {
+  position: relative;
+  overflow: hidden;
+  background: #0e0c0a;
+}
+
+.framed-media--portrait {
   aspect-ratio: 3 / 4;
-  align-items: flex-end;
-  padding: 22px;
+  border: 1px solid rgb(var(--c-gold) / 0.26);
+}
+
+.framed-media__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.framed-media--portrait .framed-media__img {
+  object-position: 50% 22%;
+  filter: saturate(0.92) contrast(1.06) brightness(1.04);
+}
+
+.framed-media__gradient--portrait {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(14 12 10 / 0.68) 0%, rgb(14 12 10 / 0.06) 45%, rgb(14 12 10 / 0.22) 100%);
+}
+
+.framed-media__vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 90px 20px rgb(14 12 10 / 0.55);
+}
+
+.framed-media__corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.framed-media__corner--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--color-gold);
+  border-left: 1px solid var(--color-gold);
+}
+
+.framed-media__corner--br {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 1px solid var(--color-gold);
+  border-right: 1px solid var(--color-gold);
+}
+
+.framed-media__label {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  color: rgb(var(--c-text) / 0.7);
 }
 
 .about__portrait-frame {
@@ -359,57 +514,165 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(170px, calc(50% - 10px)), 1fr));
   grid-auto-rows: minmax(150px, 200px);
+  grid-auto-flow: row dense;
   gap: 16px;
 }
 
-.gallery-item {
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
+/* ---------- Portfolio tiles ---------- */
+/* Real footage/photos — see the HTML comment above .gallery in
+   index.html. Base tile + a small set of modifiers (gradient strength,
+   corner brackets, play-button size, label) combine per-tile to match
+   each photo/clip's own framing, rather than one uniform treatment. */
+
+.portfolio-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(var(--c-text) / 0.14);
+  background: #0e0c0a;
   transition: transform var(--transition-med) var(--ease-out);
 }
 
-.gallery-item:hover {
+button.portfolio-tile {
+  cursor: pointer;
+}
+
+.portfolio-tile:hover,
+.portfolio-tile:focus-visible {
   transform: scale(0.985);
 }
 
-.gallery-item--wide {
+.portfolio-tile--wide {
   grid-column: span 2;
 }
 
-.gallery-item--tall {
+.portfolio-tile--tall {
   grid-row: span 2;
 }
 
-.gallery-item .placeholder__label {
+.portfolio-tile__media {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.gallery-item__play {
-  width: 68px;
-  height: 68px;
-  font-size: 1em;
+.portfolio-tile__media--top {
+  object-position: 50% 22%;
 }
 
-.gallery-item__play--sm {
-  width: 56px;
-  height: 56px;
-}
-
-.gallery-item__tag {
+.portfolio-tile__gradient {
   position: absolute;
-  bottom: 16px;
+  inset: 0;
+}
+
+.portfolio-tile__gradient--strong {
+  background: linear-gradient(to top, rgb(14 12 10 / 0.7) 0%, rgb(14 12 10 / 0.05) 45%, rgb(14 12 10 / 0.25) 100%);
+}
+
+.portfolio-tile__gradient--medium {
+  background: linear-gradient(to top, rgb(14 12 10 / 0.62) 0%, rgb(14 12 10 / 0.05) 55%);
+}
+
+.portfolio-tile__gradient--light {
+  background: linear-gradient(to top, rgb(14 12 10 / 0.5) 0%, rgb(14 12 10 / 0) 55%);
+}
+
+.portfolio-tile__gradient--light2 {
+  background: linear-gradient(to top, rgb(14 12 10 / 0.55) 0%, rgb(14 12 10 / 0) 60%);
+}
+
+.portfolio-tile__corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.portfolio-tile__corner--tl {
+  top: 14px;
+  left: 14px;
+  border-top: 1px solid var(--color-gold);
+  border-left: 1px solid var(--color-gold);
+}
+
+.portfolio-tile__corner--br {
+  bottom: 14px;
+  right: 14px;
+  border-bottom: 1px solid var(--color-gold);
+  border-right: 1px solid var(--color-gold);
+}
+
+.portfolio-tile__corner--dim {
+  width: 20px;
+  height: 20px;
+  border-color: rgb(var(--c-gold) / 0.7);
+}
+
+.portfolio-tile__corner--dim.portfolio-tile__corner--tl {
+  top: 12px;
+  left: 12px;
+}
+
+.portfolio-tile__corner--dim.portfolio-tile__corner--br {
+  bottom: 12px;
+  right: 12px;
+}
+
+.portfolio-tile__play-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.portfolio-tile__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
+  background: rgb(20 17 15 / 0.35);
+  color: rgb(var(--c-text));
+  padding-left: 3px;
+}
+
+.portfolio-tile__play--lg {
+  width: 74px;
+  height: 74px;
+  font-size: 17px;
+}
+
+.portfolio-tile__play--md {
+  width: 58px;
+  height: 58px;
+  font-size: 14px;
+}
+
+.portfolio-tile__play--sm {
+  width: 52px;
+  height: 52px;
+  font-size: 13px;
+}
+
+.portfolio-tile__label {
+  position: absolute;
+  bottom: 14px;
   left: 16px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: rgb(var(--c-text) / 0.7);
+}
+
+.portfolio-tile__label--lg {
+  bottom: 18px;
+  left: 20px;
   font-size: 11px;
-  letter-spacing: 0.2em;
-  color: rgb(var(--c-text) / 0.68);
-}
-
-.gallery-item--photo {
-  align-items: flex-end;
-  padding: 14px;
+  color: rgb(var(--c-text) / 0.75);
 }
 
 .portfolio__more {

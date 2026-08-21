@@ -4,6 +4,10 @@
  * `data-src`, until the IntersectionObserver fires), and it pauses again
  * once scrolled away. Skipped entirely under prefers-reduced-motion:
  * the poster frame just sits there, static.
+ *
+ * Matches by class name only, so it picks up the Portfolio video tiles
+ * too (they share the .instagram-tile__video class deliberately, to get
+ * this behavior for free) — nothing here is Instagram-section-specific.
  */
 export function initInstagramVideoPreviews() {
   const videos = document.querySelectorAll('.instagram-tile__video');

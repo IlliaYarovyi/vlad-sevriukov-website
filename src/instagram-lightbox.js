@@ -19,7 +19,16 @@ export function initInstagramLightbox() {
 
   function open(tile) {
     lastTrigger = tile;
-    link.href = tile.href;
+
+    // Portfolio clips aren't Instagram posts — those triggers are plain
+    // <button>s (no .href) and carry data-lightbox-no-link explicitly,
+    // so there's nothing sensible to link to.
+    if (tile.href && !('lightboxNoLink' in tile.dataset)) {
+      link.href = tile.href;
+      link.hidden = false;
+    } else {
+      link.hidden = true;
+    }
 
     if (tile.dataset.lightboxType === 'video') {
       image.hidden = true;
