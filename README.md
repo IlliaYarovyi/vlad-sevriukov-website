@@ -91,18 +91,50 @@ Project Settings → Environment Variables:
 
 ## Instagram-стрічка
 
-`index.html` містить порожній контейнер `<div id="instagram-embed">` з коментарем
-поруч — саме туди вставляється embed-код без бекенду й без токенів Meta API:
+Наразі це не живий фід, а вручну підібрані пости (`.instagram-grid` у
+`index.html`, розділ `#instagram`) — `@vladik_sevryukov` (Business-акаунт)
+ще не привʼязаний до Facebook-сторінки, а без цього офіційний Graph API
+OAuth (потрібен для живих фідів на кшталт behold.so/SnapWidget) не
+проходить. Instagram-подіум своїм embed-кодом теж не підійшов би: він
+рендериться як cross-origin `<iframe>` з фіксованим білим оформленням,
+яке неможливо перестилізувати під дизайн сайту.
 
-1. Зареєструйтесь на [snapwidget.com](https://snapwidget.com) або
-   [behold.so](https://behold.so) (обидва мають безкоштовний тариф),
-   привʼяжіть `@vlad.sevriukov`.
-2. Скопіюйте виданий `<iframe>`/`<script>` embed-код.
-3. Вставте його всередину `<div id="instagram-embed">…</div>` замість
-   поточної підказки.
+Замість цього — власні тайли (стиль як у `.gallery-item` в портфоліо) з
+реальними фото/відео, завантаженими локально в `public/instagram/`, і
+власний lightbox (`src/instagram-lightbox.js`) при кліку.
 
-Нижче embed-коду досі є статична сітка-заглушка (`.instagram-grid`,
-`aria-hidden`) — приберіть її, коли підключите живий фід.
+### Як були отримані медіа (і як оновити добірку)
+
+1. На потрібному пості в Instagram: **···** → **Embed** → скопіювати код
+   (`<blockquote class="instagram-media" data-instgrm-permalink="...">`).
+2. Відкрити цей embed-код у браузері (порожня HTML-сторінка з блоком +
+   `<script src="https://www.instagram.com/embed.js">` достатньо) і
+   зачекати, поки Instagram обробить його в `<iframe>`.
+3. У цьому iframe реальне фото/відео — це найбільший `<img>` на сторінці
+   (не avatar 100×100) або `<video poster>`/`currentSrc` для Reels.
+   Завантажити цей URL і зберегти як `public/instagram/post-N.jpg` (і
+   `post-N.mp4` для відео — `video.currentSrc`, окремий playable
+   progressive-mp4, без потреби в DASH-плеєрі).
+4. Для Reels додатково згенерувати легкий muted-прев'ю кліп для тайла
+   (повний файл — 720p, 10–20 МБ, задовгий і завеликий для автовідтворення
+   в сітці):
+   ```bash
+   ffmpeg -i post-N-full.mp4 -t 5 -vf "scale=480:-2" -an \
+     -c:v libx264 -crf 30 -preset veryfast -movflags +faststart \
+     -pix_fmt yuv420p post-N-preview.mp4
+   ```
+   (`ffmpeg-static` npm-пакет — простий спосіб отримати `ffmpeg.exe`
+   без системної інсталяції, якщо його немає в PATH.)
+5. Оновити відповідний тайл в `index.html`: `href` (посилання на
+   реальний пост), `data-lightbox-src`/`data-lightbox-poster`,
+   і `<img src>` або `<video poster>` + `<source data-src>`.
+
+Тайли з Reels зациклено програють `post-N-preview.mp4` (беззвучно, ліниво
+— нічого не завантажується, поки тайл не потрапить у viewport,
+`src/instagram-video-preview.js`); клік відкриває lightbox з повним
+`post-N-full.mp4` (зі звуком, `<video controls>`). Під
+`prefers-reduced-motion: reduce` прев'ю не запускається — просто
+статичний постер.
 
 ## Медіа-заглушки
 
@@ -117,9 +149,11 @@ Project Settings → Environment Variables:
 - [ ] Замінити `https://vlad-sevriukov.example/` на реальний домен у
       `index.html` (`<link rel="canonical">`), `public/robots.txt`,
       `public/sitemap.xml`, JSON-LD
-- [ ] Підключити Telegram-бота (див. вище) і встановити env vars у Vercel
-- [ ] Підключити Instagram embed-віджет
-- [ ] Замінити медіа-заглушки на реальні фото/відео
+- [x] Підключити Telegram-бота і встановити env vars у Vercel
+- [x] Instagram: підібрані пости з реальними фото/відео (не живий фід —
+      див. розділ "Instagram-стрічка" щодо Facebook-сторінки для живого)
+- [ ] Замінити інші медіа-заглушки (hero-відео, портрет, портфоліо) на
+      реальні фото/відео
 - [ ] Додати реальне OG-зображення (1200×630, з фото) і повернути
       `<meta property="og:image">` в `<head>` — навмисно прибрано, поки
       немає фото, щоб посилання не шарились з поламаною плашкою

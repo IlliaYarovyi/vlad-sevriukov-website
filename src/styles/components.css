@@ -842,7 +842,8 @@
   border-color: var(--color-gold);
 }
 
-.instagram-tile img {
+.instagram-tile img,
+.instagram-tile__video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -850,7 +851,9 @@
 }
 
 .instagram-tile:hover img,
-.instagram-tile:focus-visible img {
+.instagram-tile:focus-visible img,
+.instagram-tile:hover .instagram-tile__video,
+.instagram-tile:focus-visible .instagram-tile__video {
   transform: scale(1.06);
   filter: brightness(0.7);
 }

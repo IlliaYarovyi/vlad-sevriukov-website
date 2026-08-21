@@ -19,8 +19,10 @@ import { initNav } from './nav.js';
 import { initContactForm } from './contact-form.js';
 import { initHeroVideo } from './hero-video.js';
 import { initInstagramLightbox } from './instagram-lightbox.js';
+import { initInstagramVideoPreviews } from './instagram-video-preview.js';
 
 initNav();
 initContactForm();
 initHeroVideo();
 initInstagramLightbox();
+initInstagramVideoPreviews();

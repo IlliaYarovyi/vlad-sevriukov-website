@@ -506,45 +506,61 @@
       </div>
 
       <!--
-        Hand-picked posts, not a live auto-updating feed. Each photo is a
-        locally-hosted still pulled from the real post (see
+        Hand-picked posts, not a live auto-updating feed. Each photo/video
+        is locally-hosted, pulled from the real post (see
         public/instagram/) — deliberately NOT Instagram's own embed, since
         its fixed white-card styling can't be restyled to match the site
         (it renders as a cross-origin iframe; no CSS reaches inside it).
         Clicking a tile opens our own lightbox (src/instagram-lightbox.js)
         with a link through to the real post on Instagram.
 
+        Reel tiles (▶) loop a muted, 5s, 480px-wide preview clip
+        (post-N-preview.mp4 — generated with `ffmpeg -t 5 -vf scale=480:-2
+        -an -crf 30`, only ~150–400KB each) once scrolled into view
+        (src/instagram-video-preview.js pauses/plays via
+        IntersectionObserver so nothing downloads until scrolled to, and
+        skips autoplay entirely under prefers-reduced-motion). The
+        lightbox plays the real post-N-full.mp4 (the original 720p file,
+        with sound) instead — loaded only when that lightbox opens.
+
         @vladik_sevryukov is a Business account not yet connected to a
         Facebook Page, which blocks the official Graph API OAuth flow that
         live-feed widgets (behold.so/SnapWidget) need — once that's
         linked, a real live feed becomes possible instead; see README
         "Instagram feed". To refresh which posts show here in the
-        meantime: save a new still from the post and swap both the image
-        and the two data- attributes below.
+        meantime: save new media from the post (see README "Instagram
+        feed" for how these were pulled) and swap the data- attributes
+        below to match.
       -->
       <div class="instagram-grid" data-reveal>
-        <a href="https://www.instagram.com/reel/Dakm0Q5tZgy/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-1.jpg">
-          <img src="/instagram/post-1.jpg" alt="Влад веде весілля просто неба" loading="lazy" decoding="async" />
+        <a href="https://www.instagram.com/reel/Dakm0Q5tZgy/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="video" data-lightbox-src="/instagram/post-1-full.mp4" data-lightbox-poster="/instagram/post-1.jpg">
+          <video class="instagram-tile__video" poster="/instagram/post-1.jpg" muted loop playsinline preload="none" aria-label="Влад веде весілля просто неба">
+            <source data-src="/instagram/post-1-preview.mp4" type="video/mp4" />
+          </video>
           <span class="instagram-tile__icon" aria-hidden="true">▶</span>
         </a>
-        <a href="https://www.instagram.com/p/DZaTE7Tjes6/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-2.jpg">
+        <a href="https://www.instagram.com/p/DZaTE7Tjes6/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="image" data-lightbox-src="/instagram/post-2.jpg">
           <img src="/instagram/post-2.jpg" alt="Кадр з весілля" loading="lazy" decoding="async" />
           <span class="instagram-tile__icon" aria-hidden="true">▣</span>
         </a>
-        <a href="https://www.instagram.com/p/DJR-ew1tVLM/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-3.jpg">
+        <a href="https://www.instagram.com/p/DJR-ew1tVLM/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="image" data-lightbox-src="/instagram/post-3.jpg">
           <img src="/instagram/post-3.jpg" alt="Кадр з весілля" loading="lazy" decoding="async" />
           <span class="instagram-tile__icon" aria-hidden="true">▣</span>
         </a>
-        <a href="https://www.instagram.com/p/DY2W61jDVJL/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-4.jpg">
+        <a href="https://www.instagram.com/p/DY2W61jDVJL/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="image" data-lightbox-src="/instagram/post-4.jpg">
           <img src="/instagram/post-4.jpg" alt="Молодята на сцені з Владом" loading="lazy" decoding="async" />
           <span class="instagram-tile__icon" aria-hidden="true">▣</span>
         </a>
-        <a href="https://www.instagram.com/reel/DYhtQGVtbMS/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-5.jpg">
-          <img src="/instagram/post-5.jpg" alt="Влад веде весілля" loading="lazy" decoding="async" />
+        <a href="https://www.instagram.com/reel/DYhtQGVtbMS/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="video" data-lightbox-src="/instagram/post-5-full.mp4" data-lightbox-poster="/instagram/post-5.jpg">
+          <video class="instagram-tile__video" poster="/instagram/post-5.jpg" muted loop playsinline preload="none" aria-label="Влад веде весілля">
+            <source data-src="/instagram/post-5-preview.mp4" type="video/mp4" />
+          </video>
           <span class="instagram-tile__icon" aria-hidden="true">▶</span>
         </a>
-        <a href="https://www.instagram.com/reel/DQB0PY4jOpf/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-src="/instagram/post-6.jpg">
-          <img src="/instagram/post-6.jpg" alt="Влад веде весілля" loading="lazy" decoding="async" />
+        <a href="https://www.instagram.com/reel/DQB0PY4jOpf/" target="_blank" rel="noopener" class="instagram-tile" data-lightbox data-lightbox-type="video" data-lightbox-src="/instagram/post-6-full.mp4" data-lightbox-poster="/instagram/post-6.jpg">
+          <video class="instagram-tile__video" poster="/instagram/post-6.jpg" muted loop playsinline preload="none" aria-label="Влад веде весілля">
+            <source data-src="/instagram/post-6-preview.mp4" type="video/mp4" />
+          </video>
           <span class="instagram-tile__icon" aria-hidden="true">▶</span>
         </a>
       </div>
@@ -555,6 +571,7 @@
       <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-label="Публікація Instagram">
         <button type="button" class="lightbox__close" data-lightbox-close aria-label="Закрити">✕</button>
         <img class="lightbox__image" id="lightbox-image" src="" alt="" />
+        <video class="lightbox__image" id="lightbox-video" controls playsinline hidden></video>
         <a class="btn btn--outline-gold lightbox__link" id="lightbox-link" href="#" target="_blank" rel="noopener">
           ПЕРЕГЛЯНУТИ В INSTAGRAM
           <span class="btn__arrow" aria-hidden="true">→</span>
