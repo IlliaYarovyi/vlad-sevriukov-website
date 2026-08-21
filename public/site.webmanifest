@@ -1,0 +1,17 @@
+{
+  "name": "Влад Севрюков — весільний ведучий",
+  "short_name": "Влад Ведучий",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14110F",
+  "theme_color": "#14110F",
+  "lang": "uk",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

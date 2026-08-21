@@ -1,0 +1,46 @@
+/* Design tokens. Every color, font, spacing and easing value the rest of
+   the stylesheet uses lives here — change the look of the site by editing
+   this file, not by hunting through components. */
+
+:root {
+  /* Surfaces (dark → darker, used section by section down the page) */
+  --c-bg: #14110f;
+  --c-bg-raised: #1a1512;
+  --c-bg-alt: #241c16;
+  --c-bg-footer: #0e0c0a;
+
+  /* Text + gold — expressed as R G B triples so components can dial
+     opacity per-use with rgb(var(--c-text) / .5) instead of hand-picking
+     one-off rgba() values. */
+  --c-text: 246 241 233; /* #F6F1E9 */
+  --c-gold: 194 161 92; /* #C2A15C */
+  --c-gold-light: #e4ce9e;
+  --c-gold-lighter: #d9bc7c;
+  --c-gold-pale: #f0e4cb;
+
+  --color-bg: var(--c-bg);
+  --color-text: rgb(var(--c-text));
+  --color-gold: rgb(var(--c-gold));
+
+  /* Type */
+  --font-serif: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-sans: 'Jost', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Fluid section rhythm — reused by every <section> so vertical rhythm
+     stays consistent without repeating clamp() everywhere. */
+  --space-section-y: clamp(72px, 10vw, 130px);
+  --space-section-y-lg: clamp(72px, 10vw, 150px);
+  --space-section-x: clamp(16px, 4vw, 40px);
+  --space-gap-lg: clamp(44px, 6vw, 80px);
+
+  --header-h: clamp(64px, 9vw, 78px);
+
+  --ease-out: cubic-bezier(0.16, 0.84, 0.34, 1);
+  --transition-fast: 0.35s;
+  --transition-med: 0.5s;
+
+  --max-content: 1360px;
+
+  color-scheme: dark;
+}
