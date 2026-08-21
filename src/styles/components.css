@@ -821,53 +821,23 @@
   color: rgb(var(--c-text) / 0.5);
 }
 
+/* Holds Instagram's native per-post embeds (see the HTML comment above
+   this container in index.html for why it's this and not a live feed
+   widget). Each .instagram-media blockquote carries its own inline
+   max-width (540px) and min-width (326px) from Instagram's embed code —
+   the grid just decides how many fit per row and centers each card
+   within its cell so they don't stretch to fill a wide track. Instagram's
+   embed.js swaps the blockquote's contents for an iframe once it loads;
+   min-height keeps the section from collapsing/jumping before that. */
 .instagram-embed {
-  min-height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 1px dashed rgb(var(--c-text) / 0.2);
-  padding: 32px;
-}
-
-.instagram-embed__hint {
-  max-width: 46ch;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.7;
-  color: rgb(var(--c-text) / 0.45);
-}
-
-.instagram-embed__hint code {
-  color: rgb(var(--c-gold) / 0.9);
-}
-
-.instagram-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(190px, calc(50% - 8px)), 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(326px, 1fr));
+  gap: 20px;
+  justify-items: center;
 }
 
-.instagram-tile {
-  position: relative;
-  aspect-ratio: 1;
-  align-items: flex-end;
-  padding: 14px;
-  transition: transform var(--transition-med) var(--ease-out), border-color var(--transition-fast);
-}
-
-.instagram-tile:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-gold);
-}
-
-.instagram-tile__icon {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  font-size: 11px;
-  color: var(--color-gold);
+.instagram-embed .instagram-media {
+  min-height: 400px;
 }
 
 /* ---------- Contact ---------- */
