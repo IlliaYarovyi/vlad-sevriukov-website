@@ -1,13 +1,13 @@
 /**
- * Reel tiles loop a small muted preview clip once scrolled into view —
- * nothing downloads until then (the <source> has no `src`, only
- * `data-src`, until the IntersectionObserver fires), and it pauses again
- * once scrolled away. Skipped entirely under prefers-reduced-motion:
- * the poster frame just sits there, static.
+ * Instagram reel tiles loop a small muted preview clip once scrolled
+ * into view — nothing downloads until then (the <source> has no `src`,
+ * only `data-src`, until the IntersectionObserver fires), and it pauses
+ * again once scrolled away. Skipped entirely under
+ * prefers-reduced-motion: the poster frame just sits there, static.
  *
- * Matches by class name only, so it picks up the Portfolio video tiles
- * too (they share the .instagram-tile__video class deliberately, to get
- * this behavior for free) — nothing here is Instagram-section-specific.
+ * Portfolio's video tiles intentionally do NOT use this — they're
+ * static until hovered instead (see portfolio-hover-preview.js), a
+ * deliberate difference from these Instagram picks.
  */
 export function initInstagramVideoPreviews() {
   const videos = document.querySelectorAll('.instagram-tile__video');

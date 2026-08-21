@@ -169,11 +169,16 @@
         break for another (the animation would keep overriding
         .is-expanded's translate(-50%,-50%)).
    Clearing the animation once it's visually done avoids both. */
+/* width:100% (a definite value), not fit-content — fit-content here
+   created a circular dependency with .hero-video's own percentage-based
+   width below (parent needs the child's size to shrink-wrap, child
+   needs the parent's resolved size for its "100%"), which collapsed to
+   ~0px once the entrance animation was cleared and forced a style
+   recalculation. .hero-video is right-aligned itself instead (margin-
+   left: auto), since its parent is no longer shrink-wrapped to it. */
 .hero__media {
   position: relative;
-  width: fit-content;
-  max-width: 100%;
-  margin: 0 0 0 auto;
+  width: 100%;
   animation: rise 1.3s 0.15s var(--ease-out) both;
 }
 
@@ -186,6 +191,7 @@
   position: relative;
   display: block;
   width: min(380px, 100%);
+  margin-left: auto;
   aspect-ratio: 9 / 16;
   overflow: hidden;
   padding: 0;

@@ -20,9 +20,11 @@ import { initContactForm } from './contact-form.js';
 import { initHeroVideo } from './hero-video.js';
 import { initInstagramLightbox } from './instagram-lightbox.js';
 import { initInstagramVideoPreviews } from './instagram-video-preview.js';
+import { initPortfolioHoverPreviews } from './portfolio-hover-preview.js';
 
 initNav();
 initContactForm();
 initHeroVideo();
 initInstagramLightbox();
 initInstagramVideoPreviews();
+initPortfolioHoverPreviews();
