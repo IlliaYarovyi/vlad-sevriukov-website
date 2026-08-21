@@ -666,12 +666,12 @@
           <button type="button" id="contact-reset" class="btn btn--ghost">НАДІСЛАТИ ЩЕ ОДНУ</button>
         </div>
 
-        <div id="contact-error" class="contact-panel contact-panel--error" role="alert" hidden>
-          <p class="contact-panel__eyebrow">НЕ ВДАЛОСЯ НАДІСЛАТИ</p>
-          <p id="contact-error-text" class="contact-panel__body">Спробуйте ще раз.</p>
+        <div id="contact-error" class="form-alert" role="alert" hidden>
+          <span class="form-alert__icon" aria-hidden="true">!</span>
+          <p id="contact-error-text" class="form-alert__text">Спробуйте ще раз.</p>
         </div>
 
-        <form id="contact-form" class="contact-form" novalidate>
+        <form id="contact-form" class="contact-form">
           <p class="hp-field" aria-hidden="true">
             <label>Компанія (не заповнюйте це поле)
               <input type="text" name="company" tabindex="-1" autocomplete="off" />
@@ -680,7 +680,7 @@
 
           <label class="field-label">
             <span class="field-label__text">ІМ'Я *</span>
-            <input name="name" required placeholder="Олена та Максим" class="field" autocomplete="name" />
+            <input name="name" required placeholder="Ірина" class="field" autocomplete="name" />
           </label>
           <label class="field-label">
             <span class="field-label__text">ТЕЛЕФОН *</span>
@@ -700,13 +700,7 @@
           </label>
           <label class="field-label">
             <span class="field-label__text">ТИП ПОДІЇ</span>
-            <select name="type" class="field">
-              <option>Весілля</option>
-              <option>Заручини</option>
-              <option>Ювілей</option>
-              <option>Корпоратив</option>
-              <option>Інше</option>
-            </select>
+            <input name="type" placeholder="Весілля, корпоратив, ювілей…" class="field" />
           </label>
           <label class="field-label">
             <span class="field-label__text">КІЛЬКІСТЬ ГОСТЕЙ</span>

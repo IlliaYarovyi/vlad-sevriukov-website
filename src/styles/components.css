@@ -1245,13 +1245,41 @@ body.lightbox-open {
   color: rgb(var(--c-text) / 0.6);
 }
 
-.contact-panel--error {
-  border-color: rgb(220 90 90 / 0.55);
+/* Compact inline alert — deliberately NOT .contact-panel's scale (that's
+   reserved for the full "thank you" success state that replaces the
+   whole form). Sits above the still-visible form on submit failure, so
+   it needs to read as a modest, ordinary form error, not a second
+   full-size panel competing with it. */
+.form-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  border: 1px solid rgb(220 90 90 / 0.4);
   background: rgb(220 90 90 / 0.08);
 }
 
-.contact-panel--error .contact-panel__eyebrow {
+.form-alert__icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1px solid #e08a8a;
   color: #e08a8a;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.form-alert__text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgb(var(--c-text) / 0.85);
 }
 
 .contact-form {
@@ -1296,10 +1324,6 @@ body.lightbox-open {
 .field--textarea {
   resize: vertical;
   font-family: inherit;
-}
-
-select.field option {
-  color: var(--c-bg);
 }
 
 .contact-form__footer {
