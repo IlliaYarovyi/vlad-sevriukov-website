@@ -1326,8 +1326,15 @@ body.lightbox-open {
   gap: 10px;
 }
 
+/* 1 / -1 rather than a fixed "span 2": .contact-form's columns are
+   auto-fit, so the real column count varies by width (2 on desktop,
+   collapsing to 1 on narrow phones) — a hardcoded span 2 would force a
+   2nd column into existence even when auto-fit only made 1, pushing it
+   off the right edge of the screen. Spanning to the grid's actual last
+   line always fills the row correctly, at any width, with no
+   breakpoint needed. */
 .field-label--wide {
-  grid-column: span 2;
+  grid-column: 1 / -1;
 }
 
 .field-label__text {
@@ -1359,7 +1366,7 @@ body.lightbox-open {
 }
 
 .contact-form__footer {
-  grid-column: span 2;
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1387,10 +1394,4 @@ body.lightbox-open {
   width: 1px;
   height: 1px;
   overflow: hidden;
-}
-
-@media (max-width: 560px) {
-  .field-label--wide {
-    grid-column: span 1;
-  }
 }
