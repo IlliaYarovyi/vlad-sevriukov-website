@@ -1,10 +1,11 @@
 /**
- * Instagram tile lightbox: clicking a tile shows the picked photo bigger,
- * in our own styling, with a link through to the real post — instead of
- * navigating straight to Instagram (the `<a href>` is still real, so
- * without JS or with a middle-click it behaves like a normal link;
- * `data-lightbox` + `.preventDefault()` here is what upgrades that click
- * to open the popup instead).
+ * Site-wide lightbox for any [data-lightbox] element (the Instagram grid
+ * tiles, the hero video) — shows the picked photo/video bigger, in our
+ * own styling, with a link through to the real Instagram post. Each
+ * trigger is a real `<a href>` to that post, so without JS or on a
+ * middle-click it just behaves like a normal link; `data-lightbox` +
+ * `.preventDefault()` here is what upgrades a plain click to open the
+ * popup instead.
  */
 export function initInstagramLightbox() {
   const lightbox = document.getElementById('lightbox');

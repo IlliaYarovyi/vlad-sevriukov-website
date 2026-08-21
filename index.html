@@ -136,22 +136,32 @@
         </div>
       </div>
 
+      <!--
+        Real promo reel (see README "Instagram feed" for how the source
+        files were pulled/generated — same pipeline as the Instagram
+        section). Plays immediately, muted/looped, sized to its actual
+        9:16 shape rather than a fixed placeholder ratio. Click opens the
+        same lightbox used across the site (src/instagram-lightbox.js —
+        picked up automatically via the generic [data-lightbox]
+        attribute) with the full-quality file and sound.
+      -->
       <div class="hero__media">
-        <button
-          type="button"
-          id="hero-video-toggle"
-          class="placeholder hero-video"
-          aria-pressed="false"
-          aria-label="Розгорнути відео у форматі 16:9"
+        <a
+          href="https://www.instagram.com/reel/DHbHxWMt0s4/"
+          target="_blank"
+          rel="noopener"
+          class="hero-video"
+          data-lightbox
+          data-lightbox-type="video"
+          data-lightbox-src="/instagram/hero-full.mp4"
+          data-lightbox-poster="/instagram/hero-poster.jpg"
+          aria-label="Переглянути повне промо-відео зі звуком"
         >
-          <span class="placeholder__label hero-video__label" aria-hidden="true">hero-video.mp4 — натисніть, щоб розгорнути 16:9</span>
-          <span class="hero-video__icon-wrap" aria-hidden="true">
-            <span class="hero-video__play">
-              <span class="hero-video__pulse"></span>
-              <span class="hero-video__button">▶</span>
-            </span>
-          </span>
-        </button>
+          <video class="hero-video__player" poster="/instagram/hero-poster.jpg" autoplay muted loop playsinline aria-hidden="true">
+            <source src="/instagram/hero-preview.mp4" type="video/mp4" />
+          </video>
+          <span class="hero-video__icon" aria-hidden="true">▶</span>
+        </a>
         <figure class="hero__quote">
           <blockquote>
             <p>«Гості танцювали до ранку»</p>

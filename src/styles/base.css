@@ -146,18 +146,6 @@ summary::marker {
   }
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.12);
-    opacity: 0.35;
-  }
-}
-
 [data-reveal] {
   animation: rise 0.9s var(--ease-out) both;
   animation-timeline: view();
@@ -170,8 +158,7 @@ summary::marker {
   }
 
   [data-reveal],
-  .marquee__track,
-  .hero-video__pulse {
+  .marquee__track {
     animation: none !important;
   }
 }

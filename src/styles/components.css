@@ -182,80 +182,47 @@
 
 .hero__media {
   position: relative;
-  width: 100%;
-  max-width: min(820px, 100%);
+  /* Shrinks to hug the video's actual rendered box (rather than staying
+     as wide as the grid column) so .hero__quote's corner positioning
+     below lands on the video's real corner, not empty space beside it. */
+  width: fit-content;
+  max-width: 100%;
   margin: 0 0 0 auto;
   animation: rise 1.3s 0.15s var(--ease-out) both;
 }
 
-/* .hero-video is a <button> — click toggles between a tall default frame
-   and a 16:9 "expanded" one via the padding-bottom-as-aspect-ratio trick,
-   so the height change can transition smoothly (aspect-ratio can't). */
+/* Sized to the real promo video's actual 9:16 shape — capped at 380px
+   wide so a vertical video doesn't tower over the text column beside it
+   (a true 9:16 at the old 820px cap would render ~1460px tall). */
 .hero-video {
-  display: block;
-  width: 100%;
-  margin: 0;
-  appearance: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
   position: relative;
-  height: 0;
-  padding: 0;
-  padding-bottom: 75%;
-  cursor: pointer;
-  transition: padding-bottom 0.6s var(--ease-out), border-color var(--transition-fast);
+  display: block;
+  width: min(380px, 100%);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 1px solid rgb(var(--c-text) / 0.14);
+  transition: border-color var(--transition-fast);
 }
 
-.hero-video[aria-pressed='true'] {
-  padding-bottom: 56.25%;
-}
-
-.hero-video:hover {
+.hero-video:hover,
+.hero-video:focus-visible {
   border-color: rgb(var(--c-gold) / 0.5);
 }
 
-.hero-video__label {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  right: 18px;
-  color: rgb(var(--c-text) / 0.4);
+.hero-video__player {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.hero-video__icon-wrap {
+.hero-video__icon {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-video__play {
-  position: relative;
-  width: 96px;
-  height: 96px;
-}
-
-.hero-video__pulse {
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--color-gold);
-  border-radius: 50%;
-  animation: pulse 2.6s ease-in-out infinite;
-}
-
-.hero-video__button {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgb(var(--c-text) / 0.4);
-  border-radius: 50%;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
   color: rgb(var(--c-text));
-  font-size: 18px;
-  padding-left: 4px;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
 }
 
 .hero__quote {
