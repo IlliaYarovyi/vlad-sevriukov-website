@@ -175,10 +175,11 @@
     <!--
       Vlad's stand-up credential — moved here (right after the hero,
       before About) to match the 2026-09-12 design sync; previously sat
-      between Portfolio and Process. liga-smihu.jpg is a real asset; the
-      performance clip isn't shot yet, so its spot is a static
-      placeholder (see the CSS comment on .liga__video-box) — not wired
-      to a lightbox, unlike the real videos elsewhere on the page.
+      between Portfolio and Process. liga-smihu.jpg is the show logo;
+      liga-smihu.mp4 (added 2026-09-13, real footage) is the performance
+      clip itself — opens in the same clip-modal.js popup as the 3
+      portfolio videos, so it stays completely unloaded (no <source>,
+      just a poster <img>) until actually clicked.
     -->
     <section id="liga" class="liga">
       <div class="liga__sparkle" aria-hidden="true"></div>
@@ -197,8 +198,9 @@
       </div>
 
       <div class="liga__video-wrap" data-reveal>
-        <div class="liga__video-box">
-          <span class="liga__video-note">liga-smihu.mp4 — виступ (плейсхолдер)</span>
+        <button type="button" class="liga__video-box" data-clip-src="/media/liga-smihu.mp4" aria-label="Відтворити відео: виступ у Лізі Сміху">
+          <img class="liga__video-poster" src="/media/liga-smihu-poster.jpg" alt="" loading="lazy" decoding="async" />
+          <span class="liga__video-shade" aria-hidden="true"></span>
           <span class="hero-video__icon-wrap" aria-hidden="true">
             <span class="hero-video__play">
               <span class="hero-video__pulse"></span>
@@ -207,7 +209,7 @@
           </span>
           <span class="hero-video__corner hero-video__corner--tr" aria-hidden="true"></span>
           <span class="hero-video__corner hero-video__corner--bl" aria-hidden="true"></span>
-        </div>
+        </button>
       </div>
     </section>
 
@@ -396,13 +398,6 @@
           <img class="portfolio-tile__media" src="/media/portfolio/pf-n17.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
         </button>
-      </div>
-
-      <div class="portfolio__more" data-reveal>
-        <a href="#contact" class="btn btn--outline-gold">
-          ЗАПИТАТИ ПОВНЕ ПОРТФОЛІО
-          <span class="btn__arrow" aria-hidden="true">→</span>
-        </a>
       </div>
 
       <!--

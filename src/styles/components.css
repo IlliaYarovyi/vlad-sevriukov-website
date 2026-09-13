@@ -696,12 +696,6 @@ button.portfolio-tile {
   color: rgb(var(--c-text) / 0.75);
 }
 
-.portfolio__more {
-  display: flex;
-  justify-content: center;
-  margin-top: 46px;
-}
-
 .portfolio__names {
   margin-top: 56px;
 }
@@ -797,12 +791,12 @@ button.portfolio-tile {
   color: rgb(var(--c-text) / 0.68);
 }
 
-/* Real footage isn't shot yet — a dashed-hatch placeholder in the video's
-   own spot (16:9, same corner-bracket/pulse-play language as the hero
-   video) rather than hiding the section, so the layout already reads
-   right and swapping in the real clip later is a one-line src change.
+/* Real performance clip (added 2026-09-13) — same corner-bracket/
+   pulse-play language as the hero video, and the same click-to-play
+   pattern as the 3 portfolio videos: a poster image only, nothing else
+   loads until clicked (src/clip-modal.js sets the <video>'s src then).
    Reuses .hero-video's icon-wrap/play/pulse/glyph/corner sub-parts
-   verbatim — same pulsing-circle play button, just not clickable here. */
+   verbatim instead of duplicating them. */
 .liga__video-wrap {
   position: relative;
   width: 100%;
@@ -812,22 +806,29 @@ button.portfolio-tile {
 
 .liga__video-box {
   position: relative;
+  display: block;
+  width: 100%;
   height: 0;
+  padding: 0;
   padding-bottom: 56.25%;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 0.16);
   background-color: #14110f;
-  background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.05) 0 2px, transparent 2px 12px);
+  cursor: pointer;
 }
 
-.liga__video-note {
+.liga__video-poster {
   position: absolute;
-  top: 18px;
-  left: 18px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: rgb(var(--c-text) / 0.45);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.liga__video-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(14 12 10 / 0.55) 0%, rgb(14 12 10 / 0.1) 45%, rgb(14 12 10 / 0.35) 100%);
 }
 
 /* ---------- Process ---------- */
