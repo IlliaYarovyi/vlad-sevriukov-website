@@ -75,8 +75,8 @@ section {
 
 .brand__mark {
   font-family: var(--font-serif);
-  font-size: 22px;
-  letter-spacing: 0.32em;
+  font-size: 18px;
+  letter-spacing: 0.22em;
   color: rgb(var(--c-text));
 }
 

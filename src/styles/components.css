@@ -395,13 +395,14 @@ body.hero-video-open {
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--space-gap-lg);
-  align-items: center;
+  gap: clamp(36px, 5vw, 64px);
+  align-items: stretch;
   background: var(--c-bg-raised);
 }
 
 .about__portrait {
   position: relative;
+  display: flex;
 }
 
 /* Generic "real photo/video in a bracketed frame" treatment — corner
@@ -414,9 +415,14 @@ body.hero-video-open {
   background: #0e0c0a;
 }
 
+/* Fills the row's height (matches .about__body's, via align-items:
+   stretch on .about) rather than a fixed aspect-ratio — the new photo
+   isn't a tight headshot crop, so a fixed 3:4 cut into it awkwardly. */
 .framed-media--portrait {
-  aspect-ratio: 3 / 4;
-  border: 1px solid rgb(var(--c-gold) / 0.26);
+  flex: 1;
+  min-height: 520px;
+  border: 1px solid rgb(194 161 92 / 0.34);
+  background: #fff;
 }
 
 .framed-media__img {
@@ -428,20 +434,17 @@ body.hero-video-open {
 }
 
 .framed-media--portrait .framed-media__img {
-  object-position: 50% 22%;
-  filter: saturate(0.92) contrast(1.06) brightness(1.04);
+  object-position: 50% 8%;
 }
 
+/* Two layered gradients (radial vignette + a light top-down fade) on one
+   span — same trick as stacking multiple background-image values instead
+   of two separate overlay elements. */
 .framed-media__gradient--portrait {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(14 12 10 / 0.68) 0%, rgb(14 12 10 / 0.06) 45%, rgb(14 12 10 / 0.22) 100%);
-}
-
-.framed-media__vignette {
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 0 90px 20px rgb(14 12 10 / 0.55);
+  background: radial-gradient(115% 78% at 50% 38%, rgb(36 28 22 / 0) 52%, rgb(36 28 22 / 0.16) 82%, rgb(28 22 17 / 0.3) 100%),
+    linear-gradient(to top, rgb(28 22 17 / 0.26) 0%, rgb(28 22 17 / 0) 22%);
 }
 
 .framed-media__corner {
@@ -464,6 +467,12 @@ body.hero-video-open {
   border-right: 1px solid var(--color-gold);
 }
 
+/* This section's corners read a shade darker against the photo's white
+   background than the site's usual --color-gold. */
+.framed-media--portrait .framed-media__corner {
+  border-color: #a9863f;
+}
+
 .framed-media__label {
   position: absolute;
   left: 20px;
@@ -471,6 +480,11 @@ body.hero-video-open {
   font-size: 10px;
   letter-spacing: 0.34em;
   color: rgb(var(--c-text) / 0.7);
+}
+
+.framed-media__label--right {
+  left: auto;
+  right: 20px;
 }
 
 .about__portrait-frame {
@@ -505,32 +519,6 @@ body.hero-video-open {
   color: rgb(var(--c-text) / 0.68);
   max-width: 540px;
   text-wrap: pretty;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 1px;
-  margin-top: 46px;
-  background: rgb(var(--c-text) / 0.13);
-  border: 1px solid rgb(var(--c-text) / 0.13);
-}
-
-.feature-card {
-  background: var(--c-bg-raised);
-  padding: 26px 22px;
-}
-
-.feature-card__title {
-  font-family: var(--font-serif);
-  font-size: 21px;
-}
-
-.feature-card__desc {
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgb(var(--c-text) / 0.5);
 }
 
 /* ---------- Portfolio ---------- */
@@ -655,22 +643,6 @@ button.portfolio-tile {
   border-right: 1px solid var(--color-gold);
 }
 
-.portfolio-tile__corner--dim {
-  width: 20px;
-  height: 20px;
-  border-color: rgb(var(--c-gold) / 0.7);
-}
-
-.portfolio-tile__corner--dim.portfolio-tile__corner--tl {
-  top: 12px;
-  left: 12px;
-}
-
-.portfolio-tile__corner--dim.portfolio-tile__corner--br {
-  bottom: 12px;
-  right: 12px;
-}
-
 .portfolio-tile__play-wrap {
   position: absolute;
   inset: 0;
@@ -728,6 +700,41 @@ button.portfolio-tile {
   display: flex;
   justify-content: center;
   margin-top: 46px;
+}
+
+.portfolio__names {
+  margin-top: 56px;
+}
+
+.portfolio__names-label {
+  margin: 0 0 22px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  color: var(--color-gold);
+}
+
+/* Same drift-scroll mechanics as the hero's .marquee (layout.css), just
+   framed by both borders instead of one and with its own type/color/
+   speed — hence overriding via modifiers instead of reusing bare. */
+.marquee--names {
+  border-top: 1px solid rgb(var(--c-text) / 0.13);
+  border-bottom: 1px solid rgb(var(--c-text) / 0.13);
+  padding: 20px 0;
+  background: transparent;
+}
+
+.marquee__track--names {
+  gap: 34px;
+  animation-duration: 46s;
+  font-family: var(--font-serif);
+  font-size: 24px;
+  letter-spacing: normal;
+  color: rgb(var(--c-text) / 0.6);
+}
+
+.marquee__track--names .marquee__segment {
+  gap: 34px;
 }
 
 /* ---------- Ліга Сміху ---------- */
@@ -906,35 +913,12 @@ button.portfolio-tile {
   color: rgb(var(--c-text) / 0.6);
 }
 
-.geo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1px;
-  background: rgb(var(--c-text) / 0.12);
-  border: 1px solid rgb(var(--c-text) / 0.12);
+.geo-map {
+  position: relative;
 }
 
-.geo-cell {
-  background: var(--c-bg);
-  padding: 40px 26px;
-  transition: background 0.4s;
-}
-
-.geo-cell:hover {
-  background: #1e1915;
-}
-
-.geo-cell__city {
-  font-family: var(--font-serif);
-  font-size: 32px;
-  color: var(--c-gold-light);
-}
-
-.geo-cell__note {
-  margin-top: 12px;
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  color: rgb(var(--c-text) / 0.5);
+.geo-map ukraine-map svg text {
+  user-select: none;
 }
 
 /* ---------- Reviews ---------- */
@@ -968,125 +952,82 @@ button.portfolio-tile {
   scrollbar-width: thin;
 }
 
-.review-card {
-  flex: 0 0 min(380px, 82vw);
+/* Real screenshot in a bordered tile — replaced the old fabricated pull-
+   quote/chat-bubble cards (.review-card/.review-chat, both removed) once
+   real reviews existed to show. Click opens src/gallery-lightbox.js. */
+.review-tile {
+  flex: 0 0 min(340px, 82vw);
   scroll-snap-align: start;
-  padding: 38px 34px;
-  background: var(--c-bg-raised);
-  border: 1px solid rgb(var(--c-gold) / 0.24);
-}
-
-.review-card__mark {
-  font-family: var(--font-serif);
-  font-size: 54px;
-  line-height: 0.6;
-  color: var(--color-gold);
-}
-
-.review-card__quote {
-  margin-top: 22px;
-  font-size: 16px;
-  line-height: 1.85;
-  color: rgb(var(--c-text) / 0.68);
-}
-
-.review-card__author {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 28px;
-  padding-top: 22px;
-  border-top: 1px solid rgb(var(--c-text) / 0.14);
-}
-
-.review-card__avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgb(var(--c-gold) / 0.4);
-  background-image: repeating-linear-gradient(135deg, rgb(var(--c-text) / 0.09) 0 2px, transparent 2px 8px);
-}
-
-.review-card__name {
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  color: rgb(var(--c-text) / 0.68);
-}
-
-/* Chat-thread variant: a review presented as a Telegram/Instagram DM
-   excerpt instead of a pull-quote. */
-.review-card--chat {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 22px;
+  text-align: left;
+  background: var(--c-bg-raised);
+  border: 1px solid rgb(var(--c-gold) / 0.24);
+  cursor: zoom-in;
+  transition: border-color var(--transition-fast), transform 0.45s var(--ease-out);
 }
 
-.review-chat__header {
+.review-tile:hover,
+.review-tile:focus-visible {
+  border-color: var(--color-gold);
+  transform: translateY(-4px);
+}
+
+.review-tile__frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  overflow: hidden;
+  background: #100d0b;
+}
+
+.review-tile__img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.review-tile__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 -60px 60px -40px rgb(16 13 11 / 0.9);
+}
+
+.review-tile__caption {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgb(var(--c-text) / 0.1);
+  padding: 18px 20px;
+  border-top: 1px solid rgb(var(--c-text) / 0.12);
 }
 
-.review-chat__avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: 1px solid rgb(var(--c-gold) / 0.4);
-  background-image: repeating-linear-gradient(135deg, rgb(var(--c-text) / 0.09) 0 2px, transparent 2px 8px);
+.review-tile__bar {
+  width: 1px;
+  height: 26px;
+  background: var(--color-gold);
 }
 
-.review-chat__who {
+.review-tile__who {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
-.review-chat__name {
-  font-size: 13px;
+.review-tile__name {
+  font-family: var(--font-serif);
+  font-size: 20px;
   color: rgb(var(--c-text));
 }
 
-.review-chat__meta {
+.review-tile__role {
   font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgb(var(--c-text) / 0.4);
-}
-
-.review-chat__messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.review-chat__bubble {
-  align-self: flex-start;
-  max-width: 88%;
-  margin: 0;
-  padding: 12px 16px;
-  background: #2a2019;
-  border-radius: 14px 14px 14px 4px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: rgb(var(--c-text) / 0.82);
-}
-
-.review-chat__bubble--reply {
-  align-self: flex-end;
-  background: rgb(var(--c-gold) / 0.18);
-  border: 1px solid rgb(var(--c-gold) / 0.3);
-  border-radius: 14px 14px 4px 14px;
-  color: var(--c-gold-pale);
-}
-
-.review-chat__footer {
-  margin-top: auto;
-  padding-top: 8px;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: rgb(var(--c-text) / 0.4);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--c-text) / 0.45);
 }
 
 .reviews__hint {
@@ -1162,87 +1103,13 @@ button.portfolio-tile {
   color: rgb(var(--c-text) / 0.5);
 }
 
-/* ---------- Instagram ---------- */
-
-.instagram {
-  background: var(--c-bg-alt);
-}
-
-.instagram__head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin-bottom: 44px;
-}
-
-.instagram__head-title {
-  font-size: clamp(34px, 3.4vw, 54px);
-}
-
-.instagram__head-title em {
-  color: var(--c-gold-light);
-}
-
-.instagram__head-desc {
-  margin-top: 22px;
-  max-width: 460px;
-  font-size: 15px;
-  line-height: 1.75;
-  color: rgb(var(--c-text) / 0.5);
-}
-
-.instagram-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(190px, calc(50% - 8px)), 1fr));
-  gap: 14px;
-}
-
-.instagram-tile {
-  position: relative;
-  display: block;
-  aspect-ratio: 1;
-  overflow: hidden;
-  border: 1px solid rgb(var(--c-text) / 0.14);
-  transition: transform var(--transition-med) var(--ease-out), border-color var(--transition-fast);
-}
-
-.instagram-tile:hover,
-.instagram-tile:focus-visible {
-  transform: translateY(-4px);
-  border-color: var(--color-gold);
-}
-
-.instagram-tile img,
-.instagram-tile__video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-med) var(--ease-out), filter var(--transition-fast);
-}
-
-.instagram-tile:hover img,
-.instagram-tile:focus-visible img,
-.instagram-tile:hover .instagram-tile__video,
-.instagram-tile:focus-visible .instagram-tile__video {
-  transform: scale(1.06);
-  filter: brightness(0.7);
-}
-
-.instagram-tile__icon {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  font-size: 11px;
-  color: rgb(var(--c-text));
-  text-shadow: 0 1px 4px rgb(0 0 0 / 0.6);
-}
-
 /* ---------- Lightbox ---------- */
-/* Our own popup for viewing a picked Instagram post — see the HTML
-   comment above .instagram-grid in index.html for why this exists
-   instead of Instagram's own embed (can't be restyled; this can). */
+/* Shared shell (.lightbox/.lightbox__backdrop/.lightbox__dialog/
+   .lightbox__close/.lightbox__image) behind all three overlays: the
+   video clip modal, the portfolio photo viewer, and the review viewer
+   (index.html — #clip-modal/#photo-lightbox/#review-lightbox). The
+   latter two add prev/next nav buttons and a caption; the clip modal
+   uses just the shell. */
 
 .lightbox {
   position: fixed;
@@ -1311,6 +1178,77 @@ button.portfolio-tile {
 
 body.lightbox-open {
   overflow: hidden;
+}
+
+/* Prev/next — fixed at the viewport edges rather than inside
+   .lightbox__dialog, so they stay put regardless of the current
+   image's size (#photo-lightbox, #review-lightbox). */
+.lightbox__nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(20 17 15 / 0.7);
+  border: 1px solid rgb(var(--c-gold) / 0.5);
+  color: rgb(var(--c-text));
+  font-size: 20px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.lightbox__nav:hover {
+  background: var(--color-gold);
+  color: var(--c-bg);
+}
+
+.lightbox__nav--prev {
+  left: clamp(10px, 3vw, 34px);
+}
+
+.lightbox__nav--next {
+  right: clamp(10px, 3vw, 34px);
+}
+
+.lightbox__counter {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: rgb(var(--c-text) / 0.55);
+}
+
+.lightbox__review-caption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 20px;
+  background: rgb(20 17 15 / 0.85);
+  border: 1px solid rgb(var(--c-gold) / 0.3);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgb(var(--c-text) / 0.5);
+}
+
+.lightbox__review-caption strong {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: rgb(var(--c-text));
+}
+
+@media (max-width: 640px) {
+  .lightbox__nav {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
+  }
 }
 
 /* ---------- Contact ---------- */

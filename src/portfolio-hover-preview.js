@@ -6,9 +6,8 @@
  * hover instead of waiting on a fetch), it just never calls play() on
  * its own.
  *
- * Clicking still opens the full clip in the site lightbox — untouched,
- * handled entirely by instagram-lightbox.js via the tile's
- * [data-lightbox] attribute.
+ * Clicking still opens the full clip — untouched, handled entirely by
+ * clip-modal.js via the tile's [data-clip-src] attribute.
  */
 export function initPortfolioHoverPreviews() {
   const videos = document.querySelectorAll('.portfolio-tile__video');
