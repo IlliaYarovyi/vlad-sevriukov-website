@@ -400,6 +400,18 @@ body.hero-video-open {
   background: var(--c-bg-raised);
 }
 
+/* On narrow screens the photo drops below the bio text instead of
+   above it — read the story first, then see the face. */
+@media (max-width: 780px) {
+  .about__portrait {
+    order: 2;
+  }
+
+  .about__body {
+    order: 1;
+  }
+}
+
 .about__portrait {
   position: relative;
   display: flex;
