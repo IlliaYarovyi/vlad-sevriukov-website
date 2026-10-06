@@ -211,10 +211,18 @@
         not a separate lightbox instance, so playback position carries
         over instead of restarting. Click again, click the backdrop, or
         Escape collapses it back to the muted inline preview.
+
+        Starts on hero-preview.mp4 (10s loop, same resolution, ~1.2MB)
+        instead of the 42s/5.9MB hero-full.mp4, since the muted autoplay
+        loop plays immediately on page load and was competing with
+        render-critical resources for bandwidth (Lighthouse showed it as
+        the biggest single network transfer, well before anything was
+        clicked). hero-video.js upgrades the src to hero-full.mp4 only
+        once the visitor actually expands for sound.
       -->
       <div class="hero__media">
         <button type="button" class="hero-video" aria-label="без звуку — натисніть, щоб дивитися">
-          <video class="hero-video__player" src="/media/hero-full.mp4" poster="/media/hero-poster.jpg" loop muted playsinline></video>
+          <video class="hero-video__player" src="/media/hero-preview.mp4" poster="/media/hero-poster.jpg" loop muted playsinline></video>
           <span class="hero-video__hint" aria-hidden="true">без звуку — натисніть, щоб дивитися</span>
           <span class="hero-video__icon-wrap" aria-hidden="true">
             <span class="hero-video__play">

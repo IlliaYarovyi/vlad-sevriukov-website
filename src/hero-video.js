@@ -54,6 +54,12 @@ export function initHeroVideo() {
     backdrop.classList.add('is-visible');
     document.body.classList.add('hero-video-open');
     video.muted = false;
+    // Upgrade from the short autoplay preview to the full promo clip
+    // only now — on first expand, not on page load (see index.html
+    // comment above this element for why).
+    if (video.src.includes('hero-preview.mp4')) {
+      video.src = '/media/hero-full.mp4';
+    }
     video.play().catch(() => {});
     paintExpanded();
 
