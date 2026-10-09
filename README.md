@@ -39,9 +39,11 @@ vercel dev               # піднімає і статику, і /api/send-tele
 index.html                 розмітка головної сторінки (Vite-точка входу)
 privacy.html               Політика конфіденційності (окрема сторінка)
 cookies.html                Політика використання cookie (окрема сторінка)
+admin.html                 адмінка заміни медіа (окрема сторінка, noindex)
 src/
   main.js                  імпортує шрифти/стилі, ініціалізує все нижче (для index.html)
   legal.js                 легкий вхід для privacy.html/cookies.html (без hero/форми/лайтбоксів)
+  admin.js                 вхід для admin.html: логін, грід слотів, завантаження в Blob
   nav.js                   мобільне меню (гамбургер)
   contact-form.js          відправка форми, стани завантаження/помилки/успіху
   hero-video.js            hero-відео: муте/анмут, розгортання, мобільна поведінка
@@ -55,12 +57,21 @@ src/
     base.css                скидання стилів, типографіка, keyframes, focus-visible
     layout.css               header/nav/мобільне меню, сітка секцій, footer
     components.css          кнопки, картки, форма, кожна секція сторінки
+    admin.css               стилі лише для admin.html
+lib/
+  admin-auth.js            підпис/перевірка сесійної cookie, перевірка пароля
+  github-content.js        читання/запис public/media.json через GitHub Contents API
+  media-slots.js           єдиний список усіх 41 слота медіа (ключ, тип, група)
 api/
   send-telegram.js          serverless-функція: форма → Telegram
+  admin-login.js, admin-logout.js, admin-session.js   serverless: логін/сесія адмінки
+  admin-blob-upload.js      serverless: видає токен для прямого завантаження у Vercel Blob
+  admin-save-media.js       serverless: комітить нове посилання в public/media.json
 public/
   favicon.svg, site.webmanifest, robots.txt, sitemap.xml
+  media.json                перевизначення медіа-слотів (keyed за lib/media-slots.js); {} = нічого не замінено
   data/countries-110m.json  топологія світу (world-atlas) для карти України
-vite.config.js              багатосторінкова збірка (index/privacy/cookies)
+vite.config.js              багатосторінкова збірка + плагін, що вшиває media.json у HTML при білді
 ```
 
 ## Контактна форма → Telegram
@@ -312,6 +323,58 @@ accept/decline.
 консультація — варто показати реальному юристу перед використанням у
 серйознішому комерційному контексті.
 
+## Адмінка медіа
+
+`admin.html` — проста захищена паролем сторінка (один користувач, без
+ролей), з якої можна замінити будь-яке фото чи відео на сайті: hero,
+логотип і відео Ліги Сміху, фото "Про мене", 3 відео-тайли портфоліо, 17
+фото-тайлів портфоліо, 17 скріншотів відгуків. Весь список слотів — єдине
+джерело правди в `lib/media-slots.js`.
+
+**Як це працює (без бекенд-рендерингу, сайт лишається статичним):**
+
+1. Адмін логіниться паролем → `api/admin-login.js` ставить підписану
+   HttpOnly-cookie (`lib/admin-auth.js`, HMAC-SHA256, 12 год). Без БД —
+   перевірка сесії лише перераховує підпис.
+2. Обраний файл іде **напряму з браузера у Vercel Blob**
+   (`@vercel/blob/client`), в обхід serverless-функцій — так великі відео
+   (до ~100MB) не впираються в ліміт тіла запиту Vercel-функції (~4.5MB).
+   `api/admin-blob-upload.js` лише видає тимчасовий токен, перевіривши
+   сесію.
+3. Для відео клієнтський JS (`src/admin.js`) сам витягує кадр-обкладинку
+   через `<video>` + `<canvas>` — окремого завантаження постера не
+   потрібно, адмін обирає лише один файл.
+4. `api/admin-save-media.js` комітить нове посилання в `public/media.json`
+   через GitHub Contents API (`lib/github-content.js`) — той самий прийом,
+   що й порожній коміт для форс-редеплою раніше в цьому проєкті. Коміт у
+   `main` тригерить звичайний Vercel-редеплой (~1-2 хв).
+5. При білді `vite.config.js` (плагін `media-overrides`) читає
+   `public/media.json` і підставляє ці посилання прямо в атрибути
+   `src`/`poster`/`data-src`/`data-clip-src` елементів, позначених
+   `data-media-key="..."` в `index.html`. Якщо слот не перевизначений —
+   лишається оригінальний файл з `public/media/`. На проді це звичайний
+   статичний HTML, без жодного runtime fetch — нуль впливу на швидкість.
+
+**Обмеження свідомо не зроблено:** можна лише **замінити** існуючий слот,
+не додати/прибрати тайл (кількість тайлів портфоліо/відгуків лишається
+фіксованою — 17/17/3). Множинні ролі/користувачі теж не потрібні — один
+пароль на одного адміна.
+
+**Потрібно налаштувати в Vercel (Settings → Environment Variables) —
+без цього адмінка не запрацює:**
+
+- `ADMIN_PASSWORD` — пароль для входу (вигадати сильний, зберегти окремо)
+- `SESSION_SECRET` — довгий випадковий рядок для підпису cookie (наприклад,
+  `openssl rand -hex 32`)
+- `GITHUB_TOKEN` — GitHub Personal Access Token, scoped лише на цей
+  репозиторій, право `Contents: Read and write`
+- `GITHUB_REPO` — `IlliaYarovyi/vlad-sevriukov-website`
+- `BLOB_READ_WRITE_TOKEN` — зʼявляється автоматично після підключення
+  Vercel Blob Storage до проєкту (Storage → Create Database → Blob)
+
+Робоча адреса: `https://seva-smt.com/admin.html` — не в навігації, не в
+sitemap.xml, заблокована в `robots.txt`.
+
 ## Продакшн-чекліст
 
 - [x] Домен `seva-smt.com` зареєстрований, підключений у Vercel (DNS —
@@ -341,6 +404,11 @@ accept/decline.
 - [ ] (опційно) згенерувати растрові іконки (apple-touch-icon,
       192/512px PNG для manifest) з `public/favicon.svg` — зараз є лише
       SVG-іконка, якої достатньо для більшості сучасних браузерів
+- [ ] Адмінка медіа (`admin.html`) написана й задеплоєна, але **не
+      запрацює**, доки в Vercel не додані `ADMIN_PASSWORD`,
+      `SESSION_SECRET`, `GITHUB_TOKEN`, `GITHUB_REPO` і не підключено
+      Vercel Blob Storage (`BLOB_READ_WRITE_TOKEN` з'явиться сам) — див.
+      розділ "Адмінка медіа"
 
 ## Деплой (Vercel)
 

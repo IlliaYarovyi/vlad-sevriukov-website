@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Адмінка — медіа</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#14110F" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<div class="admin" id="admin-root">
+
+  <!-- Shown until a valid session cookie exists. -->
+  <section class="admin-login" id="admin-login">
+    <form id="admin-login-form" class="admin-login__form">
+      <h1 class="admin-login__title">Адмінка — медіа сайту</h1>
+      <label class="admin-login__label" for="admin-password">Пароль</label>
+      <input class="admin-login__input" type="password" id="admin-password" name="password" autocomplete="current-password" required />
+      <button type="submit" class="btn btn--gold admin-login__submit">Увійти</button>
+      <p class="admin-login__error" id="admin-login-error" hidden></p>
+    </form>
+  </section>
+
+  <!-- Shown once logged in. -->
+  <section class="admin-dashboard" id="admin-dashboard" hidden>
+    <header class="admin-dashboard__head">
+      <h1 class="admin-dashboard__title">Медіа сайту</h1>
+      <p class="admin-dashboard__hint">
+        Натисни «Замінити» під будь-яким фото чи відео, обери новий файл — за хвилину-дві зміна
+        з'явиться на сайті (він автоматично перезбирається).
+      </p>
+      <button type="button" class="btn btn--outline-gold btn--sm" id="admin-logout">Вийти</button>
+    </header>
+
+    <div class="admin-grid" id="admin-grid"><!-- filled by src/admin.js --></div>
+  </section>
+
+</div>
+
+<script type="module" src="/src/admin.js"></script>
+</body>
+</html>

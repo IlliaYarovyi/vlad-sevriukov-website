@@ -222,7 +222,7 @@
       -->
       <div class="hero__media">
         <button type="button" class="hero-video" aria-label="без звуку — натисніть, щоб дивитися">
-          <video class="hero-video__player" src="/media/hero-preview.mp4" poster="/media/hero-poster.jpg" loop muted playsinline></video>
+          <video class="hero-video__player" src="/media/hero-preview.mp4" poster="/media/hero-poster.jpg" loop muted playsinline data-media-key="hero-video"></video>
           <span class="hero-video__hint" aria-hidden="true">без звуку — натисніть, щоб дивитися</span>
           <span class="hero-video__icon-wrap" aria-hidden="true">
             <span class="hero-video__play">
@@ -266,7 +266,7 @@
           СЦЕНІЧНИЙ ДОСВІД
           <span class="section-eyebrow__rule" aria-hidden="true"></span>
         </p>
-        <img class="liga__logo" src="/media/liga-smihu.jpg" alt="Ліга Сміху" loading="lazy" decoding="async" />
+        <img class="liga__logo" src="/media/liga-smihu.jpg" alt="Ліга Сміху" loading="lazy" decoding="async" data-media-key="liga-logo" />
         <h2 class="section-heading liga__title">
           Учасник <em>Ліги Сміху</em>
         </h2>
@@ -274,8 +274,8 @@
       </div>
 
       <div class="liga__video-wrap" data-reveal>
-        <button type="button" class="liga__video-box" data-clip-src="/media/liga-smihu.mp4" aria-label="Відтворити відео: виступ у Лізі Сміху">
-          <img class="liga__video-poster" src="/media/liga-smihu-poster.jpg" alt="" loading="lazy" decoding="async" />
+        <button type="button" class="liga__video-box" data-clip-src="/media/liga-smihu.mp4" data-media-key="liga-video" aria-label="Відтворити відео: виступ у Лізі Сміху">
+          <img class="liga__video-poster" src="/media/liga-smihu-poster.jpg" alt="" loading="lazy" decoding="async" data-media-key="liga-video" />
           <span class="liga__video-shade" aria-hidden="true"></span>
           <span class="hero-video__icon-wrap" aria-hidden="true">
             <span class="hero-video__play">
@@ -299,7 +299,7 @@
     <section id="about" class="about">
       <div class="about__portrait" data-reveal>
         <div class="framed-media framed-media--portrait">
-          <img class="framed-media__img" src="/media/vlad-about.jpg" alt="Владислав Севрюков — весільний ведучий" loading="lazy" decoding="async" />
+          <img class="framed-media__img" src="/media/vlad-about.jpg" alt="Владислав Севрюков — весільний ведучий" loading="lazy" decoding="async" data-media-key="about-photo" />
           <span class="framed-media__gradient framed-media__gradient--portrait" aria-hidden="true"></span>
           <span class="framed-media__corner framed-media__corner--tl" aria-hidden="true"></span>
           <span class="framed-media__corner framed-media__corner--br" aria-hidden="true"></span>
@@ -362,9 +362,9 @@
         intentionally non-clickable; this design updates that.
       -->
       <div class="gallery" data-reveal>
-        <button type="button" class="portfolio-tile portfolio-tile--wide portfolio-tile--tall" data-clip-src="/media/portfolio/pf-1-full.mp4" aria-label="Відтворити відео: Київ">
-          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-1.jpg" muted loop playsinline preload="none">
-            <source data-src="/media/portfolio/pf-1-preview.mp4" type="video/mp4" />
+        <button type="button" class="portfolio-tile portfolio-tile--wide portfolio-tile--tall" data-clip-src="/media/portfolio/pf-1-full.mp4" data-media-key="portfolio-video-1" aria-label="Відтворити відео: Київ">
+          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-1.jpg" muted loop playsinline preload="none" data-media-key="portfolio-video-1">
+            <source data-src="/media/portfolio/pf-1-preview.mp4" type="video/mp4" data-media-key="portfolio-video-1" />
           </video>
           <span class="portfolio-tile__gradient portfolio-tile__gradient--strong" aria-hidden="true"></span>
           <span class="portfolio-tile__corner portfolio-tile__corner--tl" aria-hidden="true"></span>
@@ -374,18 +374,18 @@
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n1.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 55% 55%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n1.jpg" data-media-key="portfolio-photo-1" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 55% 55%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n2.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 48%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n2.jpg" data-media-key="portfolio-photo-2" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 48%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
-        <button type="button" class="portfolio-tile portfolio-tile--wide" data-clip-src="/media/portfolio/pf-2-full.mp4" aria-label="Відтворити відео: весілля">
-          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-2.jpg" muted loop playsinline preload="none">
-            <source data-src="/media/portfolio/pf-2-preview.mp4" type="video/mp4" />
+        <button type="button" class="portfolio-tile portfolio-tile--wide" data-clip-src="/media/portfolio/pf-2-full.mp4" data-media-key="portfolio-video-2" aria-label="Відтворити відео: весілля">
+          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-2.jpg" muted loop playsinline preload="none" data-media-key="portfolio-video-2">
+            <source data-src="/media/portfolio/pf-2-preview.mp4" type="video/mp4" data-media-key="portfolio-video-2" />
           </video>
           <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
           <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--md">▶</span></span>
@@ -393,85 +393,85 @@
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n3.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n3.jpg" data-media-key="portfolio-photo-3" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n4.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 30%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n4.jpg" data-media-key="portfolio-photo-4" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 30%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n5.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 45%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n5.jpg" data-media-key="portfolio-photo-5" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 45%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n6.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n6.jpg" data-media-key="portfolio-photo-6" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n7.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 45%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n7.jpg" data-media-key="portfolio-photo-7" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 45%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
-        <button type="button" class="portfolio-tile" data-clip-src="/media/portfolio/pf-3-full.mp4" aria-label="Відтворити відео">
-          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-3.jpg" muted loop playsinline preload="none">
-            <source data-src="/media/portfolio/pf-3-preview.mp4" type="video/mp4" />
+        <button type="button" class="portfolio-tile" data-clip-src="/media/portfolio/pf-3-full.mp4" data-media-key="portfolio-video-3" aria-label="Відтворити відео">
+          <video class="portfolio-tile__media portfolio-tile__video" poster="/media/portfolio/pf-3.jpg" muted loop playsinline preload="none" data-media-key="portfolio-video-3">
+            <source data-src="/media/portfolio/pf-3-preview.mp4" type="video/mp4" data-media-key="portfolio-video-3" />
           </video>
           <span class="portfolio-tile__gradient portfolio-tile__gradient--medium" aria-hidden="true"></span>
           <span class="portfolio-tile__play-wrap" aria-hidden="true"><span class="portfolio-tile__play portfolio-tile__play--sm">▶</span></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n8.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 48%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n8.jpg" data-media-key="portfolio-photo-8" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 48%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n9.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 35%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n9.jpg" data-media-key="portfolio-photo-9" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 35%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n10.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 22%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n10.jpg" data-media-key="portfolio-photo-10" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 22%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n11.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 30%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n11.jpg" data-media-key="portfolio-photo-11" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 30%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n12.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n12.jpg" data-media-key="portfolio-photo-12" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n13.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n13.jpg" data-media-key="portfolio-photo-13" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n14.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 88%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n14.jpg" data-media-key="portfolio-photo-14" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 88%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n15.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 35%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n15.jpg" data-media-key="portfolio-photo-15" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 35%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n16.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n16.jpg" data-media-key="portfolio-photo-16" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 42%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light" aria-hidden="true"></span>
         </button>
 
         <button type="button" class="portfolio-tile portfolio-tile--wide" data-lightbox-photo aria-label="Переглянути фото">
-          <img class="portfolio-tile__media" src="/media/portfolio/pf-n17.jpg" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
+          <img class="portfolio-tile__media" src="/media/portfolio/pf-n17.jpg" data-media-key="portfolio-photo-17" alt="Фото з події" loading="lazy" decoding="async" style="object-position: 50% 40%" />
           <span class="portfolio-tile__gradient portfolio-tile__gradient--light2" aria-hidden="true"></span>
         </button>
       </div>
@@ -575,7 +575,7 @@
       <div class="review-track" data-reveal tabindex="0" role="region" aria-label="Відгуки клієнтів, прокрутка вбік">
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Олександра">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-1.jpg" alt="Відгук — Олександра" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-1.jpg" data-media-key="review-1" alt="Відгук — Олександра" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -589,7 +589,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Олександра">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-2.jpg" alt="Відгук — Олександра" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-2.jpg" data-media-key="review-2" alt="Відгук — Олександра" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -603,7 +603,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Ірина">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-3.jpg" alt="Відгук — Ірина" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-3.jpg" data-media-key="review-3" alt="Відгук — Ірина" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -617,7 +617,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Ірина">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-4.jpg" alt="Відгук — Ірина" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-4.jpg" data-media-key="review-4" alt="Відгук — Ірина" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -631,7 +631,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Ірина">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-5.jpg" alt="Відгук — Ірина" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-5.jpg" data-media-key="review-5" alt="Відгук — Ірина" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -645,7 +645,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Катерина">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-6.jpg" alt="Відгук — Катерина" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-6.jpg" data-media-key="review-6" alt="Відгук — Катерина" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -659,7 +659,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Катя">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-7.jpg" alt="Відгук — Катя" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-7.jpg" data-media-key="review-7" alt="Відгук — Катя" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -673,7 +673,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Валерія">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-8.jpg" alt="Відгук — Валерія" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-8.jpg" data-media-key="review-8" alt="Відгук — Валерія" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -687,7 +687,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Христина">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-9.jpg" alt="Відгук — Христина" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-9.jpg" data-media-key="review-9" alt="Відгук — Христина" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -701,7 +701,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Ілля">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-10.jpg" alt="Відгук — Ілля" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-10.jpg" data-media-key="review-10" alt="Відгук — Ілля" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -715,7 +715,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Володимир">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-11.jpg" alt="Відгук — Володимир" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-11.jpg" data-media-key="review-11" alt="Відгук — Володимир" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -729,7 +729,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Максим">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-12.jpg" alt="Відгук — Максим" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-12.jpg" data-media-key="review-12" alt="Відгук — Максим" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -743,7 +743,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Аліна">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-13.jpg" alt="Відгук — Аліна" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-13.jpg" data-media-key="review-13" alt="Відгук — Аліна" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -757,7 +757,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Ліна">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-14.jpg" alt="Відгук — Ліна" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-14.jpg" data-media-key="review-14" alt="Відгук — Ліна" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -771,7 +771,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Наталія">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-15.jpg" alt="Відгук — Наталія" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-15.jpg" data-media-key="review-15" alt="Відгук — Наталія" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -785,7 +785,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Таня">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-16.jpg" alt="Відгук — Таня" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-16.jpg" data-media-key="review-16" alt="Відгук — Таня" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
@@ -799,7 +799,7 @@
 
         <button type="button" class="review-tile" data-lightbox-review aria-label="Переглянути відгук: Анна">
           <span class="review-tile__frame">
-            <img class="review-tile__img" src="/media/reviews/rev-17.jpg" alt="Відгук — Анна" loading="lazy" />
+            <img class="review-tile__img" src="/media/reviews/rev-17.jpg" data-media-key="review-17" alt="Відгук — Анна" loading="lazy" />
             <span class="review-tile__shade" aria-hidden="true"></span>
           </span>
           <span class="review-tile__caption">
